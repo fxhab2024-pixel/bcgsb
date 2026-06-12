@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دیپلوی BCGSP روی Vercel</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+  color: #fff; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+}
+.container { max-width: 600px; padding: 40px; text-align: center; }
+h1 { font-size: 2.5em; margin-bottom: 10px; background: linear-gradient(90deg, #fff, #999); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { color: #888; font-size: 1.1em; margin-bottom: 40px; }
+.steps { text-align: right; margin: 30px 0; }
+.step { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 12px; }
+.step-num { background: #0070f3; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
+.step-text { font-size: 0.95em; line-height: 1.6; }
+.step-text strong { color: #79c0ff; }
+.deploy-btn {
+  display: inline-block; padding: 16px 48px; font-size: 1.3em; font-weight: bold;
+  background: #0070f3; color: white; border: none; border-radius: 12px;
+  text-decoration: none; cursor: pointer; transition: all 0.3s;
+  margin: 20px 0; box-shadow: 0 4px 20px rgba(0,112,243,0.4);
+}
+.deploy-btn:hover { background: #0060df; transform: translateY(-2px); box-shadow: 0 6px 30px rgba(0,112,243,0.6); }
+.note { color: #666; font-size: 0.85em; margin-top: 30px; line-height: 1.6; }
+.arrow { font-size: 2em; animation: bounce 2s infinite; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🚀 دیپلوی BCGSP</h1>
+  <p class="subtitle">فقط ۳ کلیک و سایت شما آنلاین می‌شود!</p>
+  
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">۱</div>
+      <div class="step-text">روی دکمه <strong>دیپلوی</strong> زیر کلیک کنید</div>
+    </div>
+    <div class="step">
+      <div class="step-num">۲</div>
+      <div class="step-text">با اکانت <strong>GitHub</strong> خود وارد شوید (اگر لاگین هستید فقط تأیید کنید)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">۳</div>
+      <div class="step-text">روی دکمه <strong>Deploy</strong> کلیک کنید — تمام!</div>
+    </div>
+  </div>
+
+  <div class="arrow">⬇️</div>
+  
+  <a href="https://vercel.com/new/clone?repository-url=https://github.com/fxhab2024-pixel/HAB&project-name=bcgsp&env=DATABASE_URL,AUTH_SECRET" class="deploy-btn" target="_blank">
+    دیپلوی روی Vercel
+  </a>
+  
+  <div class="note">
+    <p>⚠️ بعد از دیپلوی، باید Environment Variables زیر را تنظیم کنید:</p>
+    <p><code>DATABASE_URL</code> = آدرس دیتابیس PostgreSQL</p>
+    <p><code>AUTH_SECRET</code> = یک کلید امن تصادفی</p>
+    <p>💡 برای دیتابیس رایگان از <a href="https://neon.tech" style="color:#79c0ff">neon.tech</a> استفاده کنید</p>
+  </div>
+</div>
+</body>
+</html>
