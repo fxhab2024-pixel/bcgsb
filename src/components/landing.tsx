@@ -200,7 +200,9 @@ export default function Landing() {
       {/* Footer */}
       <footer className="border-t bg-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
-          <p>© ۱۴۰۴ BCGSP - سیستم عامل هوش استراتژیک کسب‌وکار. تمامی حقوق محفوظ است.</p>
+          <p>
+            © {new Date().getFullYear()} BCGSP — سیستم عامل هوش استراتژیک کسب‌وکار. تمامی حقوق محفوظ است.
+          </p>
         </div>
       </footer>
     </div>

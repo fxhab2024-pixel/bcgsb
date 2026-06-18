@@ -41,21 +41,30 @@ export default function AuthForms() {
     }
     setLoading(true);
     try {
-      // Demo: login with mock data
-      const mockUser = {
-        id: '1',
-        name: 'کاربر آزمایشی',
-        email: loginEmail,
-        role: 'sme' as const,
-        companyName: 'شرکت نمونه',
-      };
-      const mockToken = 'demo-token-123';
-      setUser(mockUser);
-      setToken(mockToken);
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: loginEmail, password: loginPassword }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.error || 'خطا در ورود');
+        return;
+      }
+
+      // Persist to localStorage so page refresh keeps session
+      localStorage.setItem('bcgsp_token', data.token);
+      localStorage.setItem('bcgsp_user', JSON.stringify(data.user));
+
+      setUser(data.user);
+      setToken(data.token);
       setView('dashboard');
       toast.success('ورود موفقیت‌آمیز بود');
-    } catch {
-      toast.error('خطا در ورود. لطفاً دوباره تلاش کنید');
+    } catch (err) {
+      console.error('Login error:', err);
+      toast.error('خطا در ارتباط با سرور. لطفاً دوباره تلاش کنید');
     } finally {
       setLoading(false);
     }
@@ -67,23 +76,41 @@ export default function AuthForms() {
       toast.error('لطفاً تمام فیلدها را پر کنید');
       return;
     }
+    if (regPassword.length < 6) {
+      toast.error('رمز عبور باید حداقل ۶ کاراکتر باشد');
+      return;
+    }
     setLoading(true);
     try {
-      // Demo: register with mock data
-      const mockUser = {
-        id: '2',
-        name: regName,
-        email: regEmail,
-        role: regRole as 'sme' | 'consultant',
-        companyName: '',
-      };
-      const mockToken = 'demo-token-456';
-      setUser(mockUser);
-      setToken(mockToken);
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: regName,
+          email: regEmail,
+          password: regPassword,
+          role: regRole,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.error || 'خطا در ثبت‌نام');
+        return;
+      }
+
+      // Persist to localStorage so page refresh keeps session
+      localStorage.setItem('bcgsp_token', data.token);
+      localStorage.setItem('bcgsp_user', JSON.stringify(data.user));
+
+      setUser(data.user);
+      setToken(data.token);
       setView('dashboard');
       toast.success('ثبت‌نام موفقیت‌آمیز بود');
-    } catch {
-      toast.error('خطا در ثبت‌نام. لطفاً دوباره تلاش کنید');
+    } catch (err) {
+      console.error('Register error:', err);
+      toast.error('خطا در ارتباط با سرور. لطفاً دوباره تلاش کنید');
     } finally {
       setLoading(false);
     }

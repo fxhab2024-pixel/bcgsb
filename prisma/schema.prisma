@@ -37,6 +37,8 @@ model User {
   invoices      Invoice[]          @relation("InvoiceCreator")
   expenses      Expense[]          @relation("ExpenseCreator")
   revenueRecords RevenueRecord[]   @relation("RevenueCreator")
+  organizations Organization[]     @relation("OrgOwner")
+  ownedBranches Branch[]           @relation("BranchManager")
 }
 
 model Company {
@@ -516,4 +518,48 @@ model ChatMessage {
 
   session     ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   user        User?      @relation(fields: [userId], references: [id])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Organization & Branch (Multi-Tenant) — Added by AI Patch
+// These models support the multi-tenant UI in organization-view.tsx
+// ─────────────────────────────────────────────────────────────────────────
+
+model Organization {
+  id            String    @id @default(cuid())
+  name          String
+  industry      String
+  stage         String    // Idea, MVP, Growth, Scale, Mature
+  plan          String    @default("starter") // starter, pro, enterprise
+  employeeCount Int       @default(0)
+  branchCount   Int       @default(0)
+  isActive      Boolean   @default(true)
+  ownerId       String    // User who owns this organization
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  owner         User      @relation("OrgOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  branches      Branch[]
+
+  @@index([ownerId])
+  @@index([isActive])
+}
+
+model Branch {
+  id              String    @id @default(cuid())
+  organizationId  String
+  name            String
+  address         String?
+  city            String?
+  phone           String?
+  managerId       String?   // User who manages this branch
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  manager         User?        @relation("BranchManager", fields: [managerId], references: [id])
+
+  @@index([organizationId])
+  @@index([isActive])
 }
